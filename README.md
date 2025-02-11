@@ -1,5 +1,5 @@
 # Credit Risk Classification Project
-![Credit Risk Picture](https://github.com/NikhilInampudi/LeagueOfLegends-DataScience/blob/e841a20b80d31004d3a1e23303e551cd497f2407/League%20Of%20Legends%20Picture.jpg)
+![Credit Risk Picture](https://github.com/NikhilInampudi/Credit-Risk-Classification/blob/50634a931067490d3a5fe12af0637f24ac896de1/Credit%20Risk%20Image.jpg)
 
 ## Table of Contents
 - [Overview](#overview)
