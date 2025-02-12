@@ -468,6 +468,110 @@ sns.heatmap(df.corr(), vmax =.8, square = True, annot = True,cmap='Blues', fmt='
 plt.title('Confusion Matrix',fontsize=15);
 ```
 
-<img src="https://github.com/NikhilInampudi/Credit-Risk-Classification/blob/55fa2a9826c4aa0cc9c1b5d1b4c4437e92065aa7/Visualizations/All%20Variables%20Confusion%20Matrix.png" width="1000" height="1000" />
+<img src="https://github.com/NikhilInampudi/Credit-Risk-Classification/blob/55fa2a9826c4aa0cc9c1b5d1b4c4437e92065aa7/Visualizations/All%20Variables%20Confusion%20Matrix.png" width="1200" height="1000" />
+
+<br><br>
+## Model Building
+This stage of the project involves importing essential dependencies from scikit-learn for tasks such as model building, model evaluation, and splitting the data into training and testing sets. Although I am still relatively new to the field of machine learning, I selected three widely-used classification algorithms—Logistic Regression, Random Forest Classifier, and XGBoost—to compare their performance. I chose these algorithms because I am working with an imbalanced dataset and wanted to observe the contrast between a simpler algorithm like Logistic Regression and more advanced tree-based/gradient boosting models like Random Forest and XGBoost. The latter two are better suited for handling imbalanced data, thanks to their capabilities such as class weight adjustment and cost-sensitive learning techniques.
+
+<br><br>
+**Initializing Logistic Regression and fitting training data**
+<div style="max-height: 400px; overflow-y: auto;">
+  
+```python
+#Import scikit-learn libraries for machine learning implementation
+from sklearn.model_selection import train_test_split, cross_val_score
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score, classification_report
+
+#Splitting variables into predictors and target
+X = df.drop(columns = 'loan_status')
+y = df['loan_status']
+
+#Splitting data into training/testing
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+#Initializing model and fitting training data
+model = LogisticRegression()
+model.fit(X_train, y_train)
+
+#Using K-Fold to assess based off subsets of training data
+k = 5
+cv_scores = cross_val_score(model, X_train, y_train, cv=k, scoring='accuracy')
+
+y_predict = model.predict(X_test)
+
+accuracy = accuracy_score(y_test, y_predict)
+
+report = classification_report(y_test, y_predict)
+
+#Outputting evaluation scores
+print(f'Cross-Validation accuracy scores: {cv_scores}')
+print(f'Average of Cross-Validation accuracy scores: {cv_scores.mean()}')
+print(f'Test Set accuracy: {accuracy}')
+print(f'Report: {report}')
+```
+
+<br><br>
+**Initializing Random Forest and fitting training data**
+<div style="max-height: 400px; overflow-y: auto;">
+    
+```python
+#Importing Random Forest algorithm
+from sklearn.ensemble import RandomForestClassifier
+
+#Initializing model and fitting training data
+model2 = RandomForestClassifier()
+model2.fit(X_train, y_train)
+
+#Using K-Fold to assess based off subsets of training data
+k = 5
+cv_scores2 = cross_val_score(model2, X_train, y_train, cv=k, scoring='accuracy')
+
+y_predict2 = model2.predict(X_test)
+
+accuracy2 = accuracy_score(y_test, y_predict2)
+report2 = classification_report(y_test, y_predict2)
+
+#Outputting evaluation scores
+print(f'Cross-Validation accuracy scores: {cv_scores2}')
+print(f'Average of Cross-Validation accuracy scores: {cv_scores2.mean()}')
+print(f'Test Set accuracy: {accuracy2}')
+print(f'Report: {report2}')
+```
+
+<br><br>
+**Initializing XGBoost and fitting training data.**
+<div style="max-height: 400px; overflow-y: auto;">
+    
+```python
+#Importing and evaluating XGBoost 
+import xgboost as xgb
+
+model3 = xgb.XGBClassifier()
+
+model3.fit(X_train_reduced, y_train)
+y_predict3 = model3.predict(X_test_reduced)
+
+accuracy3 = accuracy_score(y_test, y_predict3)
+report3 = classification_report(y_test, y_predict3)
+
+print(f'Test Set accuracy: {accuracy3}')
+print(f'Report: {report3}')
+```
+
+<br><br>
+## Model Evaluation
+In this critical stage of the project I conducted a comprehensive evaluation of all the models to identify the best performing one. The techniques I utilized were Accuracy, Classification Report, K-Fold Cross Validation. I also employed Feature Importance as a way of identifying the most critical features so I could reduce parameters while maintaining information. 
+
+<br><br>
+**Logistic Regression Metrics**
+<img src="https://github.com/NikhilInampudi/Credit-Risk-Classification/blob/bea0f0b183a79e79837a9891195aa711b0c850fc/EvaluationMetrics/LogisticRegression%20Eval.png" width="700" height="300" />
+
+<br><br>
+**Random Forest Metrics**
+<img src="https://github.com/NikhilInampudi/Credit-Risk-Classification/blob/bea0f0b183a79e79837a9891195aa711b0c850fc/EvaluationMetrics/Screenshot%202025-02-12%20150959.png" width="700" height="300" />
+
+
 
 
