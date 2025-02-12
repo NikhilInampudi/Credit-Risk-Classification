@@ -39,9 +39,7 @@ seaborn, plotly, sci-kit learn, and xgboost for data processing, manipulation, v
   - XGBoost
 
 ## Problem Statement
-The finance industry faces significant challenges in accurately assessing credit risk, as traditional methods of assessing a borrower often 
-rely on limited or outdated criteria, leading to suboptimal lending decisions. By improving the accuracy of credit risk assessment, the project aims to optimize decision-making for 
-lenders, reduce default rates, and understand which variables contribute most heavily to a borrowers' creditworthiness.
+The finance industry struggles with accurate credit risk assessment due to reliance on limited or outdated criteria, resulting in suboptimal lending decisions. This project seeks to enhance risk evaluation by leveraging advanced techniques to improve decision-making, lower default rates, and identify key factors influencing a borrower's creditworthiness.
 
 ## Project Structure
 The project is divided into several sections, each focusing on a different aspect of data science:
