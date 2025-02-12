@@ -26,7 +26,9 @@ seaborn, plotly, sci-kit learn, and xgboost for data processing, manipulation, v
 
 **Dataset Link**
 - [Kaggle Credit Risk Dataset](https://www.kaggle.com/datasets/laotse/credit-risk-dataset)
-  
+
+## Full project in Jupyter Notebook [here](https://github.com/NikhilInampudi/Credit-Risk-Classification/blob/55fa2a9826c4aa0cc9c1b5d1b4c4437e92065aa7/Credit%20Risk%20Classification%20Project.ipynb)!
+
 ## Tools Used
 - Visual Studio Code
 - Jupyter Notebook
@@ -301,5 +303,171 @@ plt.bar(horizontal, vertical)
 ## Pre-Processing
 Preprocessing is essential in credit risk classification to ensure data quality and improve model performance. It addresses issues like missing values, noise, and outliers, which can skew results, by imputing or removing problematic data. Additionally, preprocessing involves feature engineering, where relevant features (e.g., debt-to-income ratio) are selected or created, and transformations (e.g., scaling, encoding categorical variables) are applied to make the data suitable for machine learning algorithms. This step ensures the dataset is clean, consistent, and optimized for accurate credit risk prediction.
 
+<br><br>
+### Addressing Outliers
+**Identifying value counts for people who are 80 years old+ and dropping them**
+
+<div style="max-height: 400px; overflow-y: auto;">
+    
+```python
+#Seeing how many values there are for people older than 80
+print((df['person_age'].value_counts().values>80).sum())
+
+#Dropping age above 80 because they are outliers
+df = df.drop(df[df['person_age'] > 80].index, axis=0)
+```
+
+<br><br>
+**Identifying value counts for people who have employment lengths above 40 and dropping them**
+
+<div style="max-height: 400px; overflow-y: auto;">
+    
+```python
+#Dropping employment length above 40 because they are outliers
+
+print((df['person_emp_length'].value_counts().values>40).sum())
+
+df = df.drop(df[df['person_emp_length'] > 40].index, axis=0)
+```
+
+<br><br>
+### Feature Engineering
+**Binning numerical column "ages" into discrete categories "age group" to simplify data and make it easier to analyze**
+
+<div style="max-height: 400px; overflow-y: auto;">
+    
+```python
+#Categorizing ages into age groups
+df['age_group'] = pd.cut(df['person_age'],
+                           bins=[20, 26, 36, 46, 56, 66],
+                           labels=['20-25', '26-35', '36-45', '46-55', '56-65'])
+```
+
+<br><br>
+**Binning numerical column "person income" into discrete categories "income group" to simplify data and make it easier to analyze**
+
+<div style="max-height: 400px; overflow-y: auto;">
+    
+```python
+#Categorizing incomes into income groups
+df['income_group'] = pd.cut(df['person_income'],
+                           bins=[0, 25000, 50000, 75000, 100000, float('inf')],
+                           labels=['low', 'low-middle', 'middle', 'high-middle', 'high'])
+```
+
+<br><br>
+**Binning numerical column "loan amount" into discrete categories "loan amount group" to simplify data and make it easier to analyze**
+
+<div style="max-height: 400px; overflow-y: auto;">
+    
+```python
+#Categorizing loan amounts into loan amount groups
+df['loan_amount_group'] = pd.cut(df['loan_amnt'],
+                           bins=[0, 5000, 10000, 15000, float('inf')],
+                           labels=['small', 'medium', 'large', 'very large'])
+```
+
+<br><br>
+**Combining features to reduce dimensionality. Will assess if the features provide any value during model evaluation stage by using feature importance**
+
+<div style="max-height: 400px; overflow-y: auto;">
+    
+```python
+#Creating new columns out of existing columns
+df['emp_length_to_loan_amnt_ratio'] = df['person_emp_length'] / df['loan_amnt']
+
+df['int_rate_to_loan_amnt_ratio'] = df['loan_int_rate'] / df['loan_amnt']
+```
+
+<br><br>
+**Encoding categorical variables into numbers so they can be read by machine learning algorithms and the chi square test. This is the ideal encoding method for ordinal variables but can be insufficient for nominal variables as an algorithm might try to derive an order based on the numbers. I opted for this method because I didnt want to create multiple other columns through one hot encoding and make the dataframe more cluttered.**
+
+<div style="max-height: 400px; overflow-y: auto;">
+    
+```python
+#Label encoding categorical variables
+from sklearn.preprocessing import LabelEncoder
+
+encoder = LabelEncoder()
+
+for col in df.columns:
+    if col in df[['person_home_ownership', 'loan_intent', 'loan_grade', 'cb_person_default_on_file', 'age_group', 'income_group', 'loan_amount_group']]:
+        df[col] = encoder.fit_transform(df[col])
+```
+
+<br><br>
+**Using a for loop to scale all numerical columns ensures that the features are transformed into a consistent range, enabling better interpretation and performance by the machine learning algorithm. This process helps standardize the data, preventing features with larger magnitudes from disproportionately influencing the model's learning process.**
+
+<div style="max-height: 400px; overflow-y: auto;">
+    
+```python
+#Scaling numerical columns
+from sklearn.preprocessing import StandardScaler
+
+scalar = StandardScaler()
+
+categories = ['person_age', 'person_income', 'person_emp_length', 'loan_amnt', 'loan_int_rate', 'loan_percent_income', 'cb_person_cred_hist_length', 'emp_length_to_loan_amnt_ratio', 'int_rate_to_loan_amnt_ratio']
+
+for col in categories:
+        df[col] = scalar.fit_transform(df[[col]])
+```
+
+<br><br>
+### Feature Selection
+**Using chi squared test to assess feature signifiance amongst all the categorical variables**
+<div style="max-height: 400px; overflow-y: auto;">
+    
+```python
+#Performing Chi-Square to see significance with target variable
+from sklearn.feature_selection import chi2
+
+x = df[['person_home_ownership', 'loan_intent', 'loan_grade', 'cb_person_default_on_file', 'age_group', 'income_group']]
+
+y = df['loan_status']
+
+chi_scores = chi2(x, y)
+
+chi_scores
+```
+
+<br><br>
+**Visualizing the chi value output. In this chart we can see that loan grade and person home ownership have a higher significance**
+<div style="max-height: 400px; overflow-y: auto;">
+    
+```python
+#Higher the Chi-Value, the more significant
+chi_values = pd.Series(chi_scores[0], index=x.columns)
+chi_values.sort_values(ascending=False, inplace=True)
+chi_values.plot.bar()
+```
+
+<img src="https://github.com/NikhilInampudi/Credit-Risk-Classification/blob/55fa2a9826c4aa0cc9c1b5d1b4c4437e92065aa7/Visualizations/Chi%20Value%20Bar%20Chart.png" width="1000" height="1000" />
+
+<br><br>
+**Visualizing the p-value output helps determine the statistical significance of features. A p-value below 0.05 indicates that we can reject the null hypothesis, suggesting the feature has a significant relationship with the target variable. In this analysis, the features with the highest chi-squared values also exhibit the lowest p-values, highlighting their strong association with the outcome.**
+<div style="max-height: 400px; overflow-y: auto;">
+    
+```python
+#P-Value < 0.05 is statistically significant
+p_values = pd.Series(chi_scores[1], index=x.columns)
+p_values.sort_values(ascending=False, inplace=True)
+p_values.plot.bar()
+```
+
+<img src="https://github.com/NikhilInampudi/Credit-Risk-Classification/blob/55fa2a9826c4aa0cc9c1b5d1b4c4437e92065aa7/Visualizations/P%20Value%20Bar%20Chart.png" width="1000" height="1000" />
+
+<br><br>
+**Getting one final understanding of all variable relationships after scaling and encoding**
+<div style="max-height: 400px; overflow-y: auto;">
+    
+```python
+#Visualizing all correlations after scaling and encoding
+fig, ax = plt.subplots() 
+fig.set_size_inches(15,8)
+sns.heatmap(df.corr(), vmax =.8, square = True, annot = True,cmap='Blues', fmt='.2f')
+plt.title('Confusion Matrix',fontsize=15);
+```
+
+<img src="https://github.com/NikhilInampudi/Credit-Risk-Classification/blob/55fa2a9826c4aa0cc9c1b5d1b4c4437e92065aa7/Visualizations/All%20Variables%20Confusion%20Matrix.png" width="1000" height="1000" />
 
 
