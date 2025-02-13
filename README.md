@@ -1,7 +1,7 @@
 # Credit Risk Classification Project
 ![Credit Risk Picture](https://github.com/NikhilInampudi/Credit-Risk-Classification/blob/50634a931067490d3a5fe12af0637f24ac896de1/Credit%20Risk%20Image.jpg)
 
-## Table of Contents
+## Table of Contents 📖
 - [Overview](#overview)
 - [Tools Used](#tools-used)
 - [Problem Statement](#problem-statement)
@@ -11,9 +11,9 @@
 - [Pre-Processing](#pre-processing)
 - [Model-Building](#model-building)
 - [Model-Evaluation](#model-evaluation)
-- [Results and Insights](#results-and-insights)
-- [Limitations and Future Work](#limitations-and-future-work)
-- [Conclusion](#conclusion)
+- [Findings](#findings)
+- [Future Work and Improvements](#future-work-and-improvements)
+- [Learnings](#learnings)
 
 ## Overview
 The credit risk classification project focuses on developing a machine learning model to assess the likelihood of borrowers defaulting on 
@@ -29,7 +29,7 @@ seaborn, plotly, sci-kit learn, and xgboost for data processing, manipulation, v
 
 ## Full project in Jupyter Notebook [here](https://github.com/NikhilInampudi/Credit-Risk-Classification/blob/55fa2a9826c4aa0cc9c1b5d1b4c4437e92065aa7/Credit%20Risk%20Classification%20Project.ipynb)!
 
-## Tools Used
+## Tools Used 🧰
 - Visual Studio Code
 - Jupyter Notebook
 - Python Libaries:
@@ -57,7 +57,7 @@ The project is divided into several sections, each focusing on a different aspec
 6. **Model Evaluation:** Comparing metrics between models and assessing which one to use for future use. 
 
 
-## Data Collection/Cleaning
+## Data Collection/Cleaning 🖱️
 The project starts by reading the data and getting it ready so we can do some analysis. The key steps in this stage include:
 
 **Adding necessary dependencies and reading data into dataframe**
@@ -98,7 +98,7 @@ df['loan_status'].value_counts()
 <br><br>
 *Initial data cleaning is short as data came in a mostly structured format. Most of the data cleaning/transformation will be performed during the pre-processing stage*
 
-## Exploratory Data Analysis
+## Exploratory Data Analysis 🌎
 Exploratory Data Analysis (EDA) is a critical step in the data analysis process. It involves investigating and summarizing the main characteristics of a dataset, often using visual methods, to understand its structure, patterns, and relationships before applying more formal statistical techniques or machine learning models. In this phase, I used different visualization techniques and methods to identify correlations between variables, visualize distributions, and assess critical financial features.
 
 **Using line plot to check how age compares to income. This shows as there is no linear relationship until the person is 120 years or older.**
@@ -158,7 +158,7 @@ plt.title('Confusion Matrix',fontsize=15);
 <img src="https://github.com/NikhilInampudi/Credit-Risk-Classification/blob/aa7dc62b43af4a560e4bd42875242eb4dfb4a2dc/Visualizations/Credit%20Risk%20Confusion%20Matrix.png" width="900" height="700" />
 
 <br><br>
-**Plotly pie chart to visualize distributino of home ownership. This tells us an overwhelming majority of people are stil paying for their living situation. This is often a huge expense for someone to pay for and could have an effect on someones likelihood of defaulting on a loan as they have less leftover income.**
+**Plotly pie chart to visualize distribution of home ownership. This tells us an overwhelming majority of people are stil paying for their living situation. This is often a huge expense for someone to pay for and could have an effect on someones likelihood of defaulting on a loan as they have less leftover income.**
 
 <div style="max-height: 400px; overflow-y: auto;">
     
@@ -184,7 +184,7 @@ fig.show()
 <img src="https://github.com/NikhilInampudi/Credit-Risk-Classification/blob/506e59afda2732565c70022b3dbf90cbe59ab003/Visualizations/Home%20Ownership%20Pie%20Chart.png" width="900" height="650" />
 
 <br><br>
-**Plotly pie chart to visualize distributino of different loan grades. Based on this results we can see that around 80% of individuals have a satisfactory rating (A-C) and a mminority of individuals have a bad rating (D-G). This would probably have a big effect on credit worthinesss as this is going off of someones prior history of using credit.**
+**Plotly pie chart to visualize distribution of different loan grades. Based on this results we can see that around 80% of individuals have a satisfactory rating (A-C) and a mminority of individuals have a bad rating (D-G). This would probably have a big effect on credit worthinesss as this is going off of someones prior history of using credit.**
 
 <div style="max-height: 400px; overflow-y: auto;">
     
@@ -300,35 +300,56 @@ plt.bar(horizontal, vertical)
 
 <img src="https://github.com/NikhilInampudi/Credit-Risk-Classification/blob/506e59afda2732565c70022b3dbf90cbe59ab003/Visualizations/Employment%20Length%20Count%20Distribution.png" width="1500" height="600" />
 
-## Pre-Processing
+## Pre-Processing 💻
 Preprocessing is essential in credit risk classification to ensure data quality and improve model performance. It addresses issues like missing values, noise, and outliers, which can skew results, by imputing or removing problematic data. Additionally, preprocessing involves feature engineering, where relevant features (e.g., debt-to-income ratio) are selected or created, and transformations (e.g., scaling, encoding categorical variables) are applied to make the data suitable for machine learning algorithms. This step ensures the dataset is clean, consistent, and optimized for accurate credit risk prediction.
 
 <br><br>
 ### Addressing Outliers
-**Identifying value counts for people who are 80 years old+ and dropping them**
+
+**Identifying outlier data points using box and whisker plot. In this case I drop the extreme ages that exist past 80 years old.**
 
 <div style="max-height: 400px; overflow-y: auto;">
     
 ```python
-#Seeing how many values there are for people older than 80
-print((df['person_age'].value_counts().values>80).sum())
+import numpy as np
 
-#Dropping age above 80 because they are outliers
-df = df.drop(df[df['person_age'] > 80].index, axis=0)
+
+plt.boxplot(df['person_age'], flierprops=dict(marker='o', markerfacecolor='red', markersize=8, linestyle='none'))
+
+mean = np.mean(df['person_age'])
+std_dev = np.std(df['person_age'])
+
+plt.axhline(mean, color='red', linestyle='--', label=f'Mean: {mean:.2f}')
+
+plt.legend()
+plt.title('Age Distribution')
+plt.show()
 ```
+
+<img src="https://github.com/NikhilInampudi/Credit-Risk-Classification/blob/1a0732ac7637846c672f906d6e265369bbc09a1c/Visualizations/Age%20Boxplot.png" width="900" height="800" />
 
 <br><br>
-**Identifying value counts for people who have employment lengths above 40 and dropping them**
+**Identifying outlier data points using box and whisker plot. In this case I drop the extreme employee lengths that exist past 40.**
 
 <div style="max-height: 400px; overflow-y: auto;">
     
 ```python
-#Dropping employment length above 40 because they are outliers
+import numpy as np
 
-print((df['person_emp_length'].value_counts().values>40).sum())
 
-df = df.drop(df[df['person_emp_length'] > 40].index, axis=0)
+plt.boxplot(df['person_emp_length'], flierprops=dict(marker='o', markerfacecolor='green', markersize=8, linestyle='none'))
+
+mean = np.mean(df['person_emp_length'])
+std_dev = np.std(df['person_emp_length'])
+
+plt.axhline(mean, color='red', linestyle='--', label=f'Mean: {mean:.2f}')
+
+plt.legend()
+plt.title('Employee Length Distribution')
+plt.show()
 ```
+
+<img src="https://github.com/NikhilInampudi/Credit-Risk-Classification/blob/1a0732ac7637846c672f906d6e265369bbc09a1c/Visualizations/Employee%20Length%20Boxplot.png" width="900" height="800" />
 
 <br><br>
 ### Feature Engineering
@@ -413,7 +434,7 @@ for col in categories:
 ```
 
 <br><br>
-### Feature Selection
+### Feature Selection 
 **Using chi squared test to assess feature signifiance amongst all the categorical variables**
 <div style="max-height: 400px; overflow-y: auto;">
     
@@ -468,10 +489,10 @@ sns.heatmap(df.corr(), vmax =.8, square = True, annot = True,cmap='Blues', fmt='
 plt.title('Confusion Matrix',fontsize=15);
 ```
 
-<img src="https://github.com/NikhilInampudi/Credit-Risk-Classification/blob/55fa2a9826c4aa0cc9c1b5d1b4c4437e92065aa7/Visualizations/All%20Variables%20Confusion%20Matrix.png" width="1200" height="1000" />
+<img src="https://github.com/NikhilInampudi/Credit-Risk-Classification/blob/55fa2a9826c4aa0cc9c1b5d1b4c4437e92065aa7/Visualizations/All%20Variables%20Confusion%20Matrix.png" width="1350" height="1000" />
 
 <br><br>
-## Model Building
+## Model Building 🤖
 This stage of the project involves importing essential dependencies from scikit-learn for tasks such as model building, model evaluation, and splitting the data into training and testing sets. Although I am still relatively new to the field of machine learning, I selected three widely-used classification algorithms—Logistic Regression, Random Forest Classifier, and XGBoost—to compare their performance. I chose these algorithms because I am working with an imbalanced dataset and wanted to observe the contrast between a simpler algorithm like Logistic Regression and more advanced tree-based/gradient boosting models like Random Forest and XGBoost. The latter two are better suited for handling imbalanced data, thanks to their capabilities such as class weight adjustment and cost-sensitive learning techniques.
 
 <br><br>
@@ -561,17 +582,50 @@ print(f'Report: {report3}')
 ```
 
 <br><br>
-## Model Evaluation
+## Model Evaluation ✍️
 In this critical stage of the project I conducted a comprehensive evaluation of all the models to identify the best performing one. The techniques I utilized were Accuracy, Classification Report, K-Fold Cross Validation. I also employed Feature Importance as a way of identifying the most critical features so I could reduce parameters while maintaining information. 
 
 <br><br>
-**Logistic Regression Metrics**
+**Logistic Regression Results**
 <img src="https://github.com/NikhilInampudi/Credit-Risk-Classification/blob/bea0f0b183a79e79837a9891195aa711b0c850fc/EvaluationMetrics/LogisticRegression%20Eval.png" width="700" height="300" />
 
 <br><br>
-**Random Forest Metrics**
+**Random Forest Results**
 <img src="https://github.com/NikhilInampudi/Credit-Risk-Classification/blob/bea0f0b183a79e79837a9891195aa711b0c850fc/EvaluationMetrics/Screenshot%202025-02-12%20150959.png" width="700" height="300" />
 
+<br><br>
+**Random Forest Results Using Only Top 5 Important Features**
+<img src="https://github.com/NikhilInampudi/Credit-Risk-Classification/blob/1a0732ac7637846c672f906d6e265369bbc09a1c/EvaluationMetrics/Screenshot%202025-02-12%20151142.png" width="700" height="300" />
 
+<br><br>
+**XGBoost Results**
+<img src="https://github.com/NikhilInampudi/Credit-Risk-Classification/blob/1a0732ac7637846c672f906d6e265369bbc09a1c/EvaluationMetrics/Screenshot%202025-02-12%20151205.png" width="700" height="300" />
 
+<br><br>
+## Findings 🔎
+In my analysis, Logistic Regression achieved the lowest accuracy at 85%, while Random Forest performed the best with 92% accuracy. XGBoost, using only the most important features, came in slightly lower at 90%. However, when I trained the Random Forest model using only the most important features, I noticed a significant drop in precision for the minority class (Credit Risk), from 95% to 82%. This suggests that while some features may not have high importance ratings, retaining a larger number of parameters could still play a crucial role in accurately identifying loan defaults.
+
+In the context of credit risk assessment, maintaining high precision is critical, as misclassifications could lead to substantial financial losses for the bank. Therefore, it may be more beneficial to retain all features rather than reducing dimensionality, as this helps preserve the model's accuracy and predictive power.
+
+Additionally, the results indicate that Random Forest and XGBoost outperform Logistic Regression on this dataset. This could be attributed to the medium-sized dataset (30,000 rows) or the ability of these algorithms to better handle class imbalances. As I continue to explore different algorithms and business cases, I aim to deepen my understanding of when and why certain methods are more effective, further refining my approach to solving complex problems.
+
+## Future Work and Improvements 🕐
+Additional things that I would like to implement in this project are
+- Hyperparamater Tuning: Utilizing GridSearchCV to test every combination of model parameters to identify the configuration that yields the highest accuracy. This approach is one of the most efficient ways to evaluate different parameter sets while minimizing manual effort. Incorporating paramater tuning techniques into the machine learning workflow is essential for optimizing model performance, and it’s a technique I’m eager to apply in future projects to ensure the best possible results.
+
+- Model Deployment: Creating a web flask server in Python to integrate my machine learning model and deployed it on a cloud server instance. This would allows users to make API calls to the server and receive predictions from the model. Incorporating this into my next project would be an exciting way to learn more about deploying and managing models in a production environment, giving me valuable hands-on experience with real-world applications.
+
+## Learnings 🧠
+Concepts I learned about through this project:
+  - Data Cleaning
+  - Data Visualization
+  - Handling Outliers
+  - Feature Engineering techniques such as binning, merging features, scaling, and encoding
+  - Dimensionality
+  - Feature Selection 
+  - Hypothesis Testing
+  - Chi Square Test
+  - Random Forest / XGBoost
+  - Precision, Recall, F-1 Score
+  
 
