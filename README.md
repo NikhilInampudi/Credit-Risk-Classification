@@ -3,7 +3,7 @@
 
 ## Table of Contents 📖
 - [Overview](#overview)
-- [Tools Used](#tools-used-🧰)
+- [Tools Used](#tools-used)
 - [Problem Statement](#problem-statement)
 - [Project Structure](#project-structure)
 - [Data Collection and Cleaning](#data-collection-and-cleaning)
@@ -29,7 +29,7 @@ seaborn, plotly, sci-kit learn, and xgboost for data processing, manipulation, v
 
 ## Full project in Jupyter Notebook [here](https://github.com/NikhilInampudi/Credit-Risk-Classification/blob/55fa2a9826c4aa0cc9c1b5d1b4c4437e92065aa7/Credit%20Risk%20Classification%20Project.ipynb)!
 
-## Tools Used 🧰
+## Tools Used 
 - Visual Studio Code
 - Jupyter Notebook
 - Python Libaries:
@@ -57,7 +57,7 @@ The project is divided into several sections, each focusing on a different aspec
 6. **Model Evaluation:** Comparing metrics between models and assessing which one to use for future use. 
 
 
-## Data Collection/Cleaning 🖱️
+## Data Collection/Cleaning 
 The project starts by reading the data and getting it ready so we can do some analysis. The key steps in this stage include:
 
 **Adding necessary dependencies and reading data into dataframe**
@@ -98,7 +98,7 @@ df['loan_status'].value_counts()
 <br><br>
 *Initial data cleaning is short as data came in a mostly structured format. Most of the data cleaning/transformation will be performed during the pre-processing stage*
 
-## Exploratory Data Analysis 🌎
+## Exploratory Data Analysis 
 Exploratory Data Analysis (EDA) is a critical step in the data analysis process. It involves investigating and summarizing the main characteristics of a dataset, often using visual methods, to understand its structure, patterns, and relationships before applying more formal statistical techniques or machine learning models. In this phase, I used different visualization techniques and methods to identify correlations between variables, visualize distributions, and assess critical financial features.
 
 **Using line plot to check how age compares to income. This shows as there is no linear relationship until the person is 120 years or older.**
@@ -492,7 +492,7 @@ plt.title('Confusion Matrix',fontsize=15);
 <img src="https://github.com/NikhilInampudi/Credit-Risk-Classification/blob/55fa2a9826c4aa0cc9c1b5d1b4c4437e92065aa7/Visualizations/All%20Variables%20Confusion%20Matrix.png" width="1350" height="1000" />
 
 <br><br>
-## Model Building 🤖
+## Model Building 
 This stage of the project involves importing essential dependencies from scikit-learn for tasks such as model building, model evaluation, and splitting the data into training and testing sets. Although I am still relatively new to the field of machine learning, I selected three widely-used classification algorithms—Logistic Regression, Random Forest Classifier, and XGBoost—to compare their performance. I chose these algorithms because I am working with an imbalanced dataset and wanted to observe the contrast between a simpler algorithm like Logistic Regression and more advanced tree-based/gradient boosting models like Random Forest and XGBoost. The latter two are better suited for handling imbalanced data, thanks to their capabilities such as class weight adjustment and cost-sensitive learning techniques.
 
 <br><br>
@@ -582,7 +582,7 @@ print(f'Report: {report3}')
 ```
 
 <br><br>
-## Model Evaluation ✍️
+## Model Evaluation 
 In this critical stage of the project I conducted a comprehensive evaluation of all the models to identify the best performing one. The techniques I utilized were Accuracy, Classification Report, K-Fold Cross Validation. I also employed Feature Importance as a way of identifying the most critical features so I could reduce parameters while maintaining information. 
 
 <br><br>
@@ -606,20 +606,20 @@ In this critical stage of the project I conducted a comprehensive evaluation of 
 <img src="https://github.com/NikhilInampudi/Credit-Risk-Classification/blob/1a0732ac7637846c672f906d6e265369bbc09a1c/EvaluationMetrics/Screenshot%202025-02-12%20151205.png" width="700" height="300" />
 
 <br><br>
-## Findings 🔎
+## Findings 
 In my analysis, Logistic Regression achieved the lowest accuracy at 85%, while Random Forest performed the best with 92% accuracy. XGBoost, using only the most important features, came in slightly lower at 90%. However, when I trained the Random Forest model using only the most important features, I noticed a significant drop in precision for the minority class (Credit Risk), from 95% to 82%. This suggests that while some features may not have high importance ratings, retaining a larger number of parameters could still play a crucial role in accurately identifying loan defaults.
 
 In the context of credit risk assessment, maintaining high precision is critical, as misclassifications could lead to substantial financial losses for the bank. Therefore, it may be more beneficial to retain all features rather than reducing dimensionality, as this helps preserve the model's accuracy and predictive power.
 
 Additionally, the results indicate that Random Forest and XGBoost outperform Logistic Regression on this dataset. This could be attributed to the medium-sized dataset (30,000 rows) or the ability of these algorithms to better handle class imbalances. As I continue to explore different algorithms and business cases, I aim to deepen my understanding of when and why certain methods are more effective, further refining my approach to solving complex problems.
 
-## Future Work and Improvements 🕐
+## Future Work and Improvements 
 Additional things that I would like to implement in this project are
 - Hyperparamater Tuning: Utilizing GridSearchCV to test every combination of model parameters to identify the configuration that yields the highest accuracy. This approach is one of the most efficient ways to evaluate different parameter sets while minimizing manual effort. Incorporating paramater tuning techniques into the machine learning workflow is essential for optimizing model performance, and it’s a technique I’m eager to apply in future projects to ensure the best possible results.
 
 - Model Deployment: Creating a web flask server in Python to integrate my machine learning model and deployed it on a cloud server instance. This would allows users to make API calls to the server and receive predictions from the model. Incorporating this into my next project would be an exciting way to learn more about deploying and managing models in a production environment, giving me valuable hands-on experience with real-world applications.
 
-## Learnings 🧠
+## Learnings 
 Concepts I learned about through this project:
   - Data Cleaning
   - Data Visualization
