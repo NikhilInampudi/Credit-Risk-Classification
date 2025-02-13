@@ -300,7 +300,7 @@ plt.bar(horizontal, vertical)
 
 <img src="https://github.com/NikhilInampudi/Credit-Risk-Classification/blob/506e59afda2732565c70022b3dbf90cbe59ab003/Visualizations/Employment%20Length%20Count%20Distribution.png" width="1500" height="600" />
 
-## Pre-Processing 💻
+## Pre-Processing 
 Preprocessing is essential in credit risk classification to ensure data quality and improve model performance. It addresses issues like missing values, noise, and outliers, which can skew results, by imputing or removing problematic data. Additionally, preprocessing involves feature engineering, where relevant features (e.g., debt-to-income ratio) are selected or created, and transformations (e.g., scaling, encoding categorical variables) are applied to make the data suitable for machine learning algorithms. This step ensures the dataset is clean, consistent, and optimized for accurate credit risk prediction.
 
 <br><br>
