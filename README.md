@@ -3,7 +3,7 @@
 
 ## Table of Contents 📖
 - [Overview](#overview)
-- [Tools Used](#tools-used)
+- [Tools Used](#tools-used-🧰)
 - [Problem Statement](#problem-statement)
 - [Project Structure](#project-structure)
 - [Data Collection and Cleaning](#data-collection-and-cleaning)
