@@ -587,18 +587,22 @@ In this critical stage of the project I conducted a comprehensive evaluation of 
 
 <br><br>
 **Logistic Regression Results**
+
 <img src="https://github.com/NikhilInampudi/Credit-Risk-Classification/blob/bea0f0b183a79e79837a9891195aa711b0c850fc/EvaluationMetrics/LogisticRegression%20Eval.png" width="700" height="300" />
 
 <br><br>
 **Random Forest Results**
+
 <img src="https://github.com/NikhilInampudi/Credit-Risk-Classification/blob/bea0f0b183a79e79837a9891195aa711b0c850fc/EvaluationMetrics/Screenshot%202025-02-12%20150959.png" width="700" height="300" />
 
 <br><br>
 **Random Forest Results Using Only Top 5 Important Features**
+
 <img src="https://github.com/NikhilInampudi/Credit-Risk-Classification/blob/1a0732ac7637846c672f906d6e265369bbc09a1c/EvaluationMetrics/Screenshot%202025-02-12%20151142.png" width="700" height="300" />
 
 <br><br>
 **XGBoost Results**
+
 <img src="https://github.com/NikhilInampudi/Credit-Risk-Classification/blob/1a0732ac7637846c672f906d6e265369bbc09a1c/EvaluationMetrics/Screenshot%202025-02-12%20151205.png" width="700" height="300" />
 
 <br><br>
